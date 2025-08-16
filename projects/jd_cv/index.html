@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JD ↔ CV Matcher (Browser)</title>
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head><body>
+<header class="nav"><div class="container"><a class="brand" href="../../index.html">← Back</a><div class="badge">NLP</div></div></header>
+<section class="container prose">
+  <h2>JD ↔ CV Matcher (Browser)</h2>
+  <p>Paste a Job Description and your CV text. We compute similarity and list missing keywords — all in your browser (no server).</p>
+  <textarea id="jd" rows="8" placeholder="Paste Job Description here"></textarea>
+  <textarea id="cv" rows="8" placeholder="Paste your CV text here" style="margin-top:8px"></textarea>
+  <div class="controls">
+    <button class="btn" id="analyze">Analyze</button>
+    <button class="btn" id="copy">Copy Results</button>
+  </div>
+  <div id="out" class="prose"></div>
+  <h3>How it works</h3>
+  <p>We tokenize, drop stopwords, compute TF counts, and estimate cosine similarity on term-frequency vectors. Missing keywords are top terms in JD absent from CV.</p>
+</section>
+<footer><div class="container">Contact: <a href="mailto:ambrosetheshield6@gmail.com">ambrosetheshield6@gmail.com</a></div></footer>
+<script>
+const stop=new Set("a,an,the,and,or,of,to,in,for,with,on,by,at,from,as,be,is,are,was,were,that,this,these,those,it,its,into,about,over,under,up,down,not".split(","));
+function norm(t){return t.toLowerCase().replace(/[^a-z0-9\\s\\+\\-\\.]/g,' ').split(/\\s+/).filter(x=>x && !stop.has(x))}
+function tf(terms){const m=new Map(); terms.forEach(w=>m.set(w,(m.get(w)||0)+1)); return m}
+function cosine(m1,m2){
+  const keys=new Set([...m1.keys(),...m2.keys()]);
+  let dot=0,a=0,b=0; keys.forEach(k=>{const x=m1.get(k)||0,y=m2.get(k)||0; dot+=x*y; a+=x*x; b+=y*y;});
+  return dot/(Math.sqrt(a||1)*Math.sqrt(b||1));
+}
+function topMissing(mJD,mCV,limit=50){
+  const arr=[]; mJD.forEach((v,k)=>{ if(!(mCV.has(k))) arr.push([k,v]); }); arr.sort((a,b)=>b[1]-a[1]); return arr.slice(0,limit).map(x=>x[0]);
+}
+document.getElementById('analyze').onclick=()=>{
+  const jd=norm(document.getElementById('jd').value), cv=norm(document.getElementById('cv').value);
+  const tfJD=tf(jd), tfCV=tf(cv); const sim=cosine(tfJD,tfCV);
+  const miss=topMissing(tfJD,tfCV,60);
+  document.getElementById('out').innerHTML = `<p><strong>Similarity:</strong> ${(sim*100).toFixed(1)}%</p><p><strong>Top missing keywords:</strong> ${miss.join(', ')||'None — great coverage!'}</p>`;
+};
+document.getElementById('copy').onclick=()=>{
+  const out=document.getElementById('out').innerText || '';
+  navigator.clipboard.writeText(out).catch(()=>{});
+};
+</script>
+</body></html>

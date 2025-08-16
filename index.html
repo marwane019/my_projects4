@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marwane Bakkali Hassani — Portfolio</title>
+  <meta name="description" content="Clean ML, simulations, and interactive demos.">
+  <meta name="theme-color" content="#0a0f1a">
+  <link rel="manifest" href="manifest.json">
+  <meta property="og:title" content="Marwane — Portfolio">
+  <meta property="og:description" content="Clean ML, simulations, and interactive demos.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/thumb_nbody.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>try{if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light')}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="container">
+    <div class="brand">Marwane Bakkali Hassani</div>
+    <div class="nav-actions">
+      <button id="theme" class="btn" aria-label="Toggle theme">Theme</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero container" id="main">
+  <p class="kicker">Portfolio</p>
+  <h1>Clean ML, sharp simulations, and interactive demos.</h1>
+  <p>Fast, readable, tested. Hosted on GitHub Pages; runs entirely in your browser.</p>
+  <div>
+    <span class="badge">Python</span><span class="badge">Fast demos</span><span class="badge">Canvas</span><span class="badge">NLP</span>
+  </div>
+</section>
+
+<section class="container">
+  <h2>Projects</h2>
+  <div class="grid">
+    <a class="card" href="projects/cmb_web/index.html">
+      <img src="assets/images/thumb_cmb.png" alt="CMB Spectrum">
+      <h3>CMB Spectrum (Web)</h3>
+      <p>Interactive Sachs–Wolfe toy model; tweak A_s and n_s with sliders.</p>
+    </a>
+    <a class="card" href="projects/nbody_web/index.html">
+      <img src="assets/images/thumb_nbody.png" alt="N‑Body">
+      <h3>N‑Body Simulation (Web)</h3>
+      <p>Particles under gravity; leapfrog integrator; trails and dt controls.</p>
+    </a>
+    <a class="card" href="projects/pathfinding/index.html">
+      <img src="assets/images/thumb_path.png" alt="Pathfinding">
+      <h3>Pathfinding Visualizer</h3>
+      <p>Draw walls, run A* vs Dijkstra, see explored nodes and path length.</p>
+    </a>
+    <a class="card" href="projects/jd_cv/index.html">
+      <img src="assets/images/thumb_jd.png" alt="JD CV">
+      <h3>JD ↔ CV Matcher</h3>
+      <p>Paste JD/CV, get similarity and missing keywords — all in-browser.</p>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Contact: <a href="mailto:ambrosetheshield6@gmail.com">ambrosetheshield6@gmail.com</a> · © 2025
+  </div>
+</footer>
+
+<script>
+document.getElementById('theme').onclick = ()=>{
+  const root=document.documentElement;
+  root.classList.toggle('light');
+  localStorage.setItem('theme', root.classList.contains('light')?'light':'dark');
+};
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>
